@@ -1,10 +1,13 @@
 package com.ecom.user.controller;
 
+import com.ecom.user.apireponse.APIResponse;
+import com.ecom.user.dtos.request.CreateUserRequest;
+import com.ecom.user.dtos.response.CreateUserResponse;
 import com.ecom.user.entity.User;
 import com.ecom.user.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +26,13 @@ public class UserController {
         List<User>  users = userService.getUsers();
         return users;
     }
+
+    @PostMapping("/users")
+    public ResponseEntity<APIResponse<CreateUserResponse>> createUser(@RequestBody CreateUserRequest user){
+        CreateUserResponse createdUser = userService.createUser(user);
+        return new ResponseEntity<>(new APIResponse<>(true, "User created successfully", createdUser), HttpStatus.CREATED);
+    }
+
 
 
 }
