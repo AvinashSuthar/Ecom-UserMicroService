@@ -20,4 +20,6 @@ public class User {
     private String password;
     private String mobileNo;
     private List<Role> role;
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<Address> address;
 }

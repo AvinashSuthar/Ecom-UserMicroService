@@ -2,6 +2,7 @@ package com.ecom.user.exceptionhandler;
 
 
 import com.ecom.user.apireponse.APIResponse;
+import com.ecom.user.exception.NoResourceFoundException;
 import com.ecom.user.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserException.class)
     public ResponseEntity<APIResponse<String>> handleUserException(UserException e){
         return new ResponseEntity<>(new APIResponse<>(false, e.getMessage(), null), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<APIResponse<String>> handleNoResourceFoundException(NoResourceFoundException e){
+        return new ResponseEntity<>(new APIResponse<>(false, e.getMessage(), null), HttpStatus.NOT_FOUND);
     }
 
 }
