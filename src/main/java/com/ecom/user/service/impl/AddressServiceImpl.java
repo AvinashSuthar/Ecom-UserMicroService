@@ -15,18 +15,21 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
+
+    public AddressServiceImpl(AddressRepository addressRepository , UserRepository userRepository){
+        this.addressRepository = addressRepository;
+        this.userRepository = userRepository;
+    }
+
     @Override
     public AddressResponse getAddressById(Long addressId) {
-//        Optional<Address> address = addressRepository.findById(addressId);
-//        System.out.println("Address: " + address.get().getUser());
-//        return AddressMapper.mapToAddressResponse(address.get());
-
-        return new AddressResponse(1L , "street" , "city" , "state" , "postalCode" , "country");
-
+        Optional<Address> address = addressRepository.findById(addressId);
+        System.out.println("Address: " + address.get().getUser());
+        return AddressMapper.mapToAddressResponse(address.get());
     }
 
     @Override
@@ -34,8 +37,6 @@ public class AddressServiceImpl implements AddressService {
         User user = userRepository.findById(userId).orElseThrow(() -> new NoResourceFoundException("User with id " + userId + " not found"));
         Address newAddress = AddressMapper.mapToAddress(address);
         newAddress.setUser(user);
-        user.getAddress().add(newAddress);
-        userRepository.save(user);
         return AddressMapper.mapToAddressResponse(addressRepository.save(newAddress));
     }
 }

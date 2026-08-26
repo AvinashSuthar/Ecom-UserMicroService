@@ -1,14 +1,18 @@
 package com.ecom.user.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
-@Data
+@Setter
+@Getter
 @RequiredArgsConstructor
 @Table(name = "users")
 public class User {
@@ -20,6 +24,9 @@ public class User {
     private String password;
     private String mobileNo;
     private List<Role> role;
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Address> address;
 }

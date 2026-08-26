@@ -33,4 +33,5 @@ public class UserController {
         CreateUserResponse createdUser = userService.createUser(user);
         return new ResponseEntity<>(new APIResponse<>(true, "User created successfully", createdUser), HttpStatus.CREATED);
     }
+
 }
